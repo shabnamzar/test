@@ -1,0 +1,135 @@
+﻿$(document).ready(function () {
+    $(".progress-bar").loading();
+    $("input").on("click", function () {
+        $(".progress-bar").loading();
+    });
+    $("#form1").validate({
+        rules: { inpTellphone: { tell: true } },
+        highlight: function (input) {
+            $(input).addClass("has-error has-danger");
+        },
+        unhighlight: function (input) {
+            $(input).removeClass("has-error has-danger");
+        },
+        errorPlacement: function (error, element) {
+            $(element).addClass("has-error has-danger");
+            $(element).parents(".form-group").append(error);
+        },
+    });
+    $("#form2").validate({
+        rules: {},
+        highlight: function (input) {
+            $(input).addClass("has-error has-danger");
+        },
+        unhighlight: function (input) {
+            $(input).removeClass("has-error has-danger");
+        },
+        errorPlacement: function (error, element) {
+            $(element).addClass("has-error has-danger");
+            $(element).parents(".form-group").append(error);
+            $(element).parents(".form-group").find(".error").addClass("rightSide");
+        },
+    });
+    SliderOuterLoad();
+});
+$("#btnServices").on("click", function () {
+    if ($("#form1").valid()) {
+        alert("لطفا کدهای بکند خود را ثبت بفرمایید");
+    }
+});
+$("#btnsend").on("click", function () {
+    if ($("#form2").valid()) {
+        alert("لطفا کدهای بکند خود را ثبت بفرمایید");
+    }
+});
+//$(".articleBox ul").mouseleave(function () {
+//    $("#slider_OuterBody_slid").val(false);
+//});
+//$(".articleBox ul").mouseover(function () {
+//    $("#slider_OuterBody_slid").val(true);
+//});
+//$(".articleBox .iconPic .link-to-post img").mouseleave(function () {
+//    $("#slider_OuterBody_slid").val(false);
+//});
+////$(".articleBox .iconPic .link-to-post img").on(function () {
+////    alert('11');
+////    $("#slider_OuterBody_slid").val(true);
+////});
+//$(".articleBox .iconPic .link-to-post img").mouseover(function () {
+  
+//    $("#slider_OuterBody_slid").val(true);
+//});
+
+////document.addEventListener("dragstart", function (event) {
+////    // The dataTransfer.setData() method sets the data type and the value of the dragged data
+////    event.dataTransfer.setData("Text", event.target.id);
+
+////    // Output some text when starting to drag the p element
+////    document.getElementById("demo").innerHTML = "Started to drag the p element.";
+
+////    // Change the opacity of the draggable element
+////    event.target.style.opacity = "0.4";
+////});
+
+
+
+
+
+
+$(".customerBox ul").mouseleave(function () {
+    $("#slider_OuterBody_slid").val(false);
+});
+$(".customerBox ul").mouseover(function () {
+    $("#slider_OuterBody_slid").val(true);
+});
+
+function SliderOuterLoad() {
+    var MainUL = $(".slider_OuterBody ul ");
+    $(MainUL)
+        .delay(501)
+        .queue(function (next) {
+            next();
+        });
+    var widthUL = parseInt($(".container").width());
+    var widthDragg = parseInt($(window).width());
+    var tmp = "";
+    var tmp2 = "";
+    if (typeof widthUL !== "undefined" && typeof widthDragg !== "undefined" && widthUL > 50) {
+        tmp2 = ((((widthDragg - widthUL) / 2) + (widthDragg * .03)) * -1).toString() + "px";
+        tmp = (((widthDragg - widthUL) / 2) + (widthDragg * .025)).toString() + "px";
+        $(MainUL)
+            .find(".slick-list.draggable")
+            .delay(700)
+            .queue(function (next) {
+                $(this).css("margin-left", tmp2).css("width", ($(window).width() + 20) + "px");
+                $(this).css("padding-left", tmp);
+                next();
+            });
+    } else {
+        $(MainUL)
+            .find(".slick-list.draggable")
+            .delay(700)
+            .queue(function (next) {
+                $(this).css("padding-left", "0").css("margin-left", "0").css("width", "unset");
+                next();
+            });
+    }
+}
+function SliderOuterLoad_revese() {
+    $(".slider_OuterBody ul .slick-list.draggable").css("padding-left", "0").css("width", ($(".container").width() - 40)+"px");
+}
+var time = "";
+$(window).resize(function () {
+    if (time == "") {
+        time = Date.now();
+      //  SliderOuterLoad_revese();
+        SliderOuterLoad();
+    } else {
+        var def = parseFloat(Date.now() - parseFloat(time));
+        if (def > 2000) {
+         //   SliderOuterLoad_revese();
+            SliderOuterLoad();
+            time = "";
+        }
+    }
+});

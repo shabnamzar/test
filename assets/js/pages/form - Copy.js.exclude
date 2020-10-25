@@ -1,0 +1,477 @@
+﻿$(document).ready(function () {
+    $('#regForm').validate({
+        rules: {
+            'requester_name':
+            {
+                firstname: true
+            },
+            'requester_family': {
+                firstname: true
+            },
+            'requester_father': {
+                firstname: true
+            },
+            'requester_national_code': {
+                nationalcode: true
+            },
+            'requester_phone': {
+                mobile_1: true,
+                mobile_2: true
+            },
+            'subject': {
+                firstname: true
+            },
+            'zip': {
+                nationalcode: true
+            },
+            'phone': {
+                tell: true
+            },
+            'address': {
+                address: true
+            },
+            'user1_Firstname':
+            {
+                firstname: true
+            },
+            'user1_Lastname': {
+                firstname: true
+            },
+            'user1_natinalCode': {
+                nationalcode: true
+            },
+            'user1_postalCode': {
+                nationalcode: true
+            },
+            'user1_mobile': {
+                mobile_1: true,
+                mobile_2: true
+            }
+        },
+        highlight: function (input) {
+            $(input).addClass('has-error has-danger');
+        },
+        unhighlight: function (input) {
+            $(input).removeClass('has-error has-danger');
+            $(input).parent().find(".error").remove();
+        },
+        errorPlacement: function (error, element) {
+            $(element).addClass('has-error has-danger');
+            $(error).insertAfter(element);
+
+        }
+    });
+    $('#form2').validate({
+        rules: {
+          
+            'user1_Firstname':
+            {
+                firstname: true
+            },
+            'user1_Lastname': {
+                firstname: true
+            },
+            'user1_natinalCode': {
+                nationalcode: true
+            },
+            'user1_postalCode': {
+                nationalcode: true
+            },
+            'user1_mobile': {
+                mobile_1: true,
+                mobile_2: true
+            }
+        },
+        highlight: function (input) {
+            $(input).addClass('has-error has-danger');
+        },
+        unhighlight: function (input) {
+            $(input).removeClass('has-error has-danger');
+            $(input).parent().find(".error").remove();
+        },
+        errorPlacement: function (error, element) {
+            $(element).addClass('has-error has-danger');
+            $(error).insertAfter(element);
+
+        }
+    });
+  
+ 
+    $(".pageFour").prop("disabled", true);
+});
+
+$('body').on('click', '.next-tab', function () {
+    var op = false;
+    var tmpclasses = $(this).attr("class");
+    if (typeof tmpclasses !== 'undefined' && tmpclasses.indexOf("pageOne") > -1) {
+        if ($('#regForm').valid()) {
+            op = true;
+        }
+    } else {
+        if (typeof tmpclasses !== 'undefined' && tmpclasses.indexOf("pageTwo") > -1) {
+            if ($('#regForm').valid()) {
+                op = true;
+            }
+        } else {
+            if (typeof tmpclasses !== 'undefined' && tmpclasses.indexOf("pageFour") > -1) {
+                $("#alertModal").modal('show');
+                op = true;
+            }
+        }
+    }
+
+    if (op) {
+        var next = $('.tabs .tab-element.active').next('li');
+        if (next.length) {
+            next.find('a').trigger('click');
+        } else {
+            jQuery('.Tabs a:first').tabs('show');
+        }
+    }
+});
+
+$('body').on('click', '.previous-tab', function () {
+    var prev = jQuery('.tabs .tab-element.active').prev('li')
+    if (prev.length) {
+        prev.find('a').trigger('click');
+    } else {
+        jQuery('.Tabs a:last').tabs('show');
+    }
+});
+
+
+$(".clearForm").click(function () {
+    $(this).parents(".tab-contain").find("input").val("");
+    $(this).parents(".tab-contain").find("textarea").val("");
+});
+
+
+
+function AddRow() {
+
+    var firstName = $("#user1_Firstname").val();
+    var lastname = $("#user1_Lastname").val();
+    var mas = $("#user1_mas option:selected").text();
+    var mas_val = $("#user1_mas option:selected").val();
+    var emza = $("#user1_Emza option:selected").text();
+    var emza_val = $("#user1_Emza option:selected").val();
+    var percent = $("#user1_percent").val();
+    var nationalCode = $("#user1_natinalCode").val();
+    var postalCode = $("#user1_postalCode").val();
+    var mobile = $("#user1_mobile").val();
+    var rowCount1 = $('#UsersTable tbody tr.cart_item').length;
+
+    var t = $(".UsersTable").find(postalCode);
+    var text =
+        '<tr class="cart_item" >' +
+        '<td >' +
+        (rowCount1 + 1).toString() +
+        '</td>' +
+        '<td class="product-thumbnail" data-title="Product Name">' +
+        '    <div class="prd-name">' +
+        '    <span class="rightSide" for="user1_Firstname">' + firstName + '</span> &nbsp;' +
+        '    <span for="user1_Lastname">' + lastname + '</span>' +
+        '</div>' +
+        '   <input type="hidden"  value="' + mas_val.toString() + '" for="user1_mas"/>' +//alt="مسئولیت"
+        '   <input type="hidden"  value="' + emza_val.toString() + '" for="user1_Emza"/>' +//
+        ' </td>' +
+        '<td class="product-quantity" data-title="Quantity">' +
+        '    <div class="quantity-box type1">' +
+        '        <span class="price-amount" for="user1_natinalCode">' + nationalCode + ' </span>' +
+        '    </div>' +
+        '</td>' +
+        '<td class="product-subtotal" data-title="Total">' +
+        '    <div class="price price-contain text-center">' +
+        '        <span class="price-amount" for="user1_percent">' + percent + '%</span>' +
+        '    </div>' +
+        '</td>' +
+        '<td class="product-thumbnail" data-title="Product Name">' +
+        '   <div class="prd-name" for="user1_mas">' + mas + ' </div>' +
+        '</td>' +
+        '<td class="product-quantity" data-title="Quantity">' +
+        '    <div class="quantity-box type1">' +
+        '        <span class="price-amount" for="user1_postalCode">' + postalCode + ' </span>' +
+        '    </div>' +
+        '</td>' +
+        '<td class="product-quantity2 position-Relative lg-padding-left-50" data-title="Quantity">' +
+        '    <div class="quantity-box type1">' +
+        '        <span class="price-amount" for="user1_mobile">' + mobile + ' </span>' +
+        '    </div>' +
+        '    <div class="action">' +
+        '      <a class="edit"><i class="fa fa-pencil color-green" aria-hidden="true"></i></a>' +
+        '     <a class="remove" data-target="#deleteUser1" data-toggle="modal"><i class="fa fa-trash-o color-red" aria-hidden="true"></i></a>' +
+        '    </div>' +
+        '</td>' +
+        '</tr >';
+
+    $('#UsersTable tbody ').append(text);
+}
+
+function emptyInput() {
+    $("#user1_Firstname").val("");
+    $("#user1_Lastname").val("");
+    $("#user1_mas option:selected").text("");
+    $("#user1_mas option:selected").val("");
+    $("#user1_Emza option:selected").text("");
+    $("#user1_Emza option:selected").val("");
+    $("#user1_percent").val("");
+    $("#user1_natinalCode").val("");
+    $("#user1_postalCode").val("");
+    $("#user1_mobile").val("");
+}
+
+function EditRow(rowindex) {
+
+    var firstName = $("#user1_Firstname").val();
+    var lastname = $("#user1_Lastname").val();
+    var mas = $("#user1_mas option:selected").text();
+    var mas_val = $("#user1_mas option:selected").val();
+    var emza = $("#user1_Emza option:selected").text();
+    var emza_val = $("#user1_Emza option:selected").val();
+    var percent = $("#user1_percent").val();
+    var nationalCode = $("#user1_natinalCode").val();
+    var postalCode = $("#user1_postalCode").val();
+    var mobile = $("#user1_mobile").val();
+
+
+    // var rowindex = $("#UsersTable_selectedIndex").val();
+
+
+    var text =
+        '<tr class="cart_item" >' +
+        '<td >' +
+        rowindex +
+        '</td>' +
+        '<td class="product-thumbnail" data-title="Product Name">' +
+        '    <div class="prd-name">' +
+        '    <span class="rightSide" for="user1_Firstname">' + firstName + '</span> &nbsp;' +
+        '    <span for="user1_Lastname">' + lastname + '</span>' +
+        '</div>' +
+        '   <input type="hidden"  value="' + mas_val.toString() + '" for="user1_mas"/>' +//alt="مسئولیت"
+        '   <input type="hidden"  value="' + emza_val.toString() + '" for="user1_Emza"/>' +//
+        ' </td>' +
+        '<td class="product-quantity" data-title="Quantity">' +
+        '    <div class="quantity-box type1">' +
+        '        <span class="price-amount" for="user1_natinalCode">' + nationalCode + ' </span>' +
+        '    </div>' +
+        '</td>' +
+        '<td class="product-subtotal" data-title="Total">' +
+        '    <div class="price price-contain text-center">' +
+        '        <span class="price-amount" for="user1_percent">' + percent + '%</span>' +
+        '    </div>' +
+        '</td>' +
+        '<td class="product-thumbnail" data-title="Product Name">' +
+        '   <div class="prd-name" for="user1_mas">' + mas + ' </div>' +
+        '</td>' +
+        '<td class="product-quantity" data-title="Quantity">' +
+        '    <div class="quantity-box type1">' +
+        '        <span class="price-amount" for="user1_postalCode">' + postalCode + ' </span>' +
+        '    </div>' +
+        '</td>' +
+        '<td class="product-quantity2 position-Relative lg-padding-left-50" data-title="Quantity">' +
+        '    <div class="quantity-box type1">' +
+        '        <span class="price-amount" for="user1_mobile">' + mobile + ' </span>' +
+        '    </div>' +
+        '    <div class="action">' +
+        '      <a class="edit"><i class="fa fa-pencil color-green" aria-hidden="true"></i></a>' +
+        '     <a class="remove" data-target="#deleteUser1" data-toggle="modal"><i class="fa fa-trash-o color-red" aria-hidden="true"></i></a>' +
+        '    </div>' +
+        '</td>' +
+        '</tr >';
+
+    $("#UsersTable tbody").find('tr').eq(rowindex).after(text);
+    $("#UsersTable tbody").find('tr').eq(rowindex).remove();
+    // $('#UsersTable tbody ').append(text);
+}
+
+$("#btnPluss").click(function () {
+    emptyInput();
+});
+
+$('#btnAccept-delete').on('click', function () {
+    var Row = $("#dataTable6 .AddModal");
+    var rowindex = $("#UsersTable_selectedIndex").val();
+    $("#UsersTable tbody").find('tr').eq(rowindex).remove();
+    $('#deleteUser1').modal('toggle');
+});
+
+$('#btnAccept-add').on('click', function () {
+    if ($('#form2').valid()) {
+        var rowindex = $("#hdnRowIndex").val();
+        if ((typeof rowindex !== 'undefined') && (rowindex.trim() != "-1")) {
+            EditRow(rowindex);
+            $("#hdnRowIndex").val("-1");
+        }
+        else {
+            AddRow();
+        }
+        $("#addUser1").modal('toggle');
+    }
+});
+
+$(document).on("click", "#UsersTable .remove", function () {
+    $("#UsersTable_selectedIndex").val($(this).parents("tr").index());
+});
+
+$(document).on("click", "#UsersTable .edit", function () {
+    //$("#btnSaveUSer").removeClass("display-none");
+    //$("#btnPluss").addClass("display-none");
+
+    $("#addUser1").modal('show');
+
+    var rowindex = $(this).parents("tr").index();
+    $("#hdnRowIndex").val(rowindex.toString());
+    // alert("hdnRowIndex   "+rowindex);
+    var row = $(this).parents("tr");
+
+    var firstName = $(row).find("span[ for='user1_Firstname'] ").text();
+    var lastName = $(row).find("span[ for='user1_Lastname'] ").text();
+    var emza = $(row).find("input[ for='user1_Emza'] ").val();
+    var maso = $(row).find("input[ for='user1_mas'] ").val();
+    var nationalCode = $(row).find("span[ for='user1_natinalCode'] ").text();
+    var percent = $(row).find("span[ for='user1_percent'] ").text();
+    var postalcode = $(row).find("span[ for='user1_postalCode'] ").text();
+    var mobile = $(row).find("span[ for='user1_mobile'] ").text();
+
+
+
+    if (typeof maso !== "undefined") {
+        $('#user1_mas').select2('val', maso);
+
+    }
+    else {
+        $('#user1_mas').select2('val', "0");
+    }
+
+
+    if (typeof emza !== "undefined") {
+        $('#user1_Emza').select2('val', emza);
+    }
+    else {
+        $('#user1_Emza').select2('val', "0");
+    }
+
+
+    if (typeof firstName !== "undefined") {
+        $("#user1_Firstname").val(firstName.trim());
+    }
+    else {
+        $("#user1_Firstname").val("");
+    }
+
+    if (typeof lastName !== "undefined") {
+        $("#user1_Lastname").val(lastName.trim());
+    }
+    else {
+        $("#user1_Lastname").val("");
+    }
+
+    if (typeof nationalCode !== "undefined") {
+        $("#user1_natinalCode").val(nationalCode.trim());
+    }
+    else {
+        $("#user1_natinalCode").val("");
+    }
+
+    if (typeof percent !== "undefined") {
+        $("#user1_percent").val(percent.replace("%", ""));
+    }
+    else {
+        $("#user1_percent").val("0");
+    }
+
+    if (typeof postalcode !== "undefined") {
+        $("#user1_postalCode").val(postalcode.trim());
+    }
+    else {
+        $("#user1_postalCode").val("");
+    }
+
+    if (typeof mobile !== "undefined") {
+        $("#user1_mobile").val(mobile.trim());
+    }
+    else {
+        $("#user1_mobile").val("");
+    }
+});
+
+$('#input_subcribe').change(function () {
+    if (this.checked) {
+        $(".pageFour").prop("disabled", false);
+    }
+    else {
+
+        $(".pageFour").prop("disabled", true);
+    }
+});
+
+$('.tabs .tab-link').click(function (e) {
+    var op = false;
+    var page3 = false;
+    var tmphref = $(this).attr("href");
+    if (typeof tmphref !== 'undefined' && tmphref.indexOf("#tab01_2st") > -1) {
+        if ($('#regForm').valid()) {
+            op = true;
+        }
+    }
+    else {
+        if (typeof tmphref !== 'undefined' && tmphref.indexOf("#tab01_3st") > -1) {
+            if ($('#regForm').valid()) {
+                if ($('#regForm').valid()) {
+                    op = true;
+                }
+            }
+        } else {
+            if (typeof tmphref !== 'undefined' && tmphref.indexOf("#tab01_4st") > -1) {
+                if ($('#regForm').valid()) {
+                    if ($('#regForm').valid()) {
+                        if ($('#input_subcribe:checkbox:checked').length > 0) {
+                            $("#alertModal").modal('show');
+                            op = true;
+                        }
+                        else {
+                            page3 = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (op.toString() == "true") {
+        var next = $(this);
+        if (next.length) {
+            next.find('a').trigger('click');
+        }
+    } else {
+        if (page3.toString() == "true") {
+            setTimeout(
+                function () {
+                    //  alert(op);
+                    $('.tabs .tab-element').removeClass("active");
+                    $(".tab-content .tab-contain").removeClass("active");
+                    $('.tabs .tab-link[href="#tab01_3st"]').parents(".tab-element").addClass("active");
+                    $(".tab-content .tab-contain#tab01_3st").addClass("active");
+                    return;
+                },
+                100);
+        } else {
+            setTimeout(
+                function () {
+                    $('.tabs .tab-element').removeClass("active");
+                    $(".tab-content .tab-contain").removeClass("active");
+                    $('.tabs .tab-element:first').addClass("active");
+                    $(".tab-content .tab-contain:first").addClass("active");
+                },
+                100);
+        }
+
+    }
+});
+
+$('#addUser1').on('shown.bs.modal', function (e) {
+    if ($('#addUser1 .select2').length) {
+        $('#addUser1 .select2').select2();
+    }
+    Set_labelLocation();
+
+});
