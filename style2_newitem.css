@@ -1,0 +1,28 @@
+﻿.serviceSliderT_image2 .style-bottom-info.layout-02 .post-meta__item.author {
+    color: #009798;
+    margin-left: 0;
+    float: none;
+    text-align: left;
+    margin-bottom: 20px;
+    width: 80%;
+    padding-left: 5px;
+    height: 50px;
+    overflow: auto;
+}
+.serviceSliderT_image .post-item.style-bottom-info .post-content .title a {
+    margin-left: 10px;
+    float: right;
+    color: #009798;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 30px;
+}
+.serviceSlider .style-bottom-info.layout-02 .post-content .excerpt {
+    margin-top: 0;
+    text-align: right;
+    height: 80px;
+    overflow: auto;
+    font-size: 15px;
+    line-height:25px;
+}
