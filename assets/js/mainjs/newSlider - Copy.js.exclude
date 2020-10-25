@@ -1,0 +1,248 @@
+﻿(function ($) {
+    $.fn.responsiveGallery = function (option) {
+        var countLi = $(".responsiveGallery-wrapper li").length;
+        var opts = $.extend({}, $.fn.responsiveGallery.defaults, option),
+            $rgWrapper = this,
+            $rgItems = $rgWrapper.find("li"),
+            rgItemsLength = $rgItems.length,
+            support3d = true,
+            support2d = false,
+            rgCurrentIndex = 0;
+        (rgShowCount = 3), (rgTansCSS = []), (animatDuration = opts.animatDuration), (isAnimating = true), (touchX = 0);
+        function getTransform3dCSS(tx, ty, ry, zIndex, opacity, visibility) {
+            return {
+                "-webkit-transform": "translateX(" + tx + ") translateZ(" + ty + "px) rotateY(" + ry + "deg)",
+                "-moz-transform": "translateX(" + tx + ") translateZ(" + ty + "px) rotateY(" + ry + "deg)",
+                "-o-transform": "translateX(" + tx + ") translateZ(" + ty + "px) rotateY(" + ry + "deg)",
+                "-ms-transform": "translateX(" + tx + ") translateZ(" + ty + "px) rotateY(" + ry + "deg)",
+                transform: "translateX(" + tx + ") translateZ(" + ty + "px) rotateY(" + ry + "deg)",
+                "z-index": zIndex,
+                opacity: opacity,
+                visibility: visibility,
+            };
+        }
+        function getTransitionCSS(time, ease) {
+            return {
+                "-webkit-transition": "all " + time + "s " + ease,
+                "-moz-transition": "all " + time + "s " + ease,
+                "-ms-transition": "all " + time + "s " + ease,
+                "-o-transition": "all " + time + "s " + ease,
+                transition: "all " + time + "s " + ease,
+            };
+        }
+        function getTransform7CSS() {
+            var cssArray;
+            if (support3d) {
+                cssArray = [
+                    getTransform3dCSS("-100%", -400, 40, -1, 0, "hidden"),
+                    getTransform3dCSS("0", -350, 45, -1, 1, "visible"),
+                    getTransform3dCSS("100%", -300, 45, 0, 1, "visible"),
+                    getTransform3dCSS("200%", -200, 40, 1, 1, "visible"),
+                    getTransform3dCSS("300%", 0, 0, 2, 1, "visible"),
+                    getTransform3dCSS("400%", -200, -40, 1, 1, "visible"),
+                    getTransform3dCSS("500%", -300, -45, 0, 1, "visible"),
+                    getTransform3dCSS("600%", -350, -45, -1, 1, "visible"),
+                    getTransform3dCSS("700%", -400, -40, -1, 0, "hidden"),
+                ];
+            }
+            return cssArray;
+        }
+        function getTransform5CSS() {
+            var cssArray;
+            if (support3d) {
+                cssArray = [
+                    getTransform3dCSS("-100%", -400, 0, -1, 0, "hidden"),
+                    getTransform3dCSS("-100%", -300, 0, 0, 1, "visible"),
+                    getTransform3dCSS("-67%", -200, 0, 1, 1, "visible"),
+                    getTransform3dCSS("50%", 0, 0, 2, 1, "visible"),
+                    getTransform3dCSS("167%", -200, 0, 1, 1, "visible"),
+                    getTransform3dCSS("200%", -300, 0, 0, 1, "visible"),
+                    getTransform3dCSS("250%", -400, 0, -1, 0, "hidden"),
+                ];
+            }
+            return cssArray;
+        }
+        function getTransform3CSS() {
+            var cssArray;
+            if (support3d) {
+                cssArray = [
+                    getTransform3dCSS("-100%", -400, 0, 0, 0, "hidden"),
+                    getTransform3dCSS("-67%", -300, 0, 1, 1, "visible"),
+                    getTransform3dCSS("50%", 0, 0, 2, 1, "visible"),
+                    getTransform3dCSS("167%", -300, 0, 1, 1, "visible"),
+                    getTransform3dCSS("200%", -400, 0, 0, 0, "hidden"),
+                ];
+            }
+            return cssArray;
+        }
+        function getTransform1CSS() {
+            var cssArray;
+            if (support3d) {
+                cssArray = [getTransform3dCSS("-100%", -300, 45, 0, 0, "hidden"), getTransform3dCSS("0%", 0, 0, 2, 1, "visible"), getTransform3dCSS("100%", -300, -45, 0, 0, "hidden")];
+            }
+            return cssArray;
+        }
+        function setSectionItems(fun) {
+            var $items = [];
+            $items[0] = $rgItems.eq(rgCurrentIndex - 1);
+            fun(0, $items[0]);
+            for (var i = 1; i <= 3 + 1; i++) {
+                var next = rgCurrentIndex + i - 1;
+                if (next >= rgItemsLength) {
+                    next = next - rgItemsLength;
+                }
+                $items[i] = $rgItems.eq(next);
+                fun(i, $items[i]);
+            }
+        }
+        function moveGallery(direction) {
+            isAnimating = true;
+            rgCurrentIndex = direction;
+            $("#dots li").removeClass("current");
+            $("#dots")
+                .find("li:eq(" + (countLi - 1 - rgCurrentIndex) + ")")
+                .addClass("current");
+            var ActiveID = rgCurrentIndex + 1;
+            if (ActiveID > countLi - 1) {
+                ActiveID = 0;
+            }
+            var wrapperWidth = $rgWrapper.width();
+            if (wrapperWidth <= 500) {
+                ActiveID = ActiveID - 1;
+            }
+            $(".responsiveGallery-wrapper li").removeClass("active");
+            $(".responsiveGallery-wrapper")
+                .find("li:eq(" + ActiveID + ")")
+                .addClass("active");
+            debugger;
+            setSectionItems(function (i, $item) {
+                $item.css(rgTansCSS[i]);
+            });
+            setTimeout(function () {
+                isAnimating = false;
+            }, animatDuration);
+            debugger;
+        }
+        function moveGallery_Timer(direction) {
+            isAnimating = true;
+            rgCurrentIndex = direction;
+            $("#dots li").removeClass("current");
+            $("#dots")
+                .find("li:eq(" + rgCurrentIndex + ")")
+                .addClass("current");
+            var ActiveID = rgCurrentIndex + 1;
+            if (ActiveID > countLi - 1) {
+                ActiveID = 0;
+            }
+            $(".responsiveGallery-wrapper li").removeClass("active");
+            $(".responsiveGallery-wrapper")
+                .find("li:eq(" + ActiveID + ")")
+                .addClass("active");
+            setSectionItems(function (i, $item) {
+                $item.css(rgTansCSS[i]);
+            });
+            setTimeout(function () {
+                isAnimating = false;
+            }, animatDuration);
+        }
+        opts.$btn_next.on("click", function (e) {
+            !isAnimating && moveGallery(+1);
+        });
+        opts.$btn_prev.on("click", function (e) {
+            !isAnimating && moveGallery(-1);
+        });
+        $rgWrapper
+            .on("touchstart", function (e) {
+                var touch = e.originalEvent.touches[0];
+                touchX = touch.pageX;
+            })
+            .on("touchend touchcancel", function (e) {
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0],
+                    touchGap = touch.pageX - touchX;
+                if (touchGap > 0) {
+                    var tmpindex = countLi;
+                    if (rgCurrentIndex != 0) {
+                        tmpindex = rgCurrentIndex - 1;
+                    }
+                    moveGallery(tmpindex);
+                }
+                if (touchGap < 0) {
+                    var tmpindex1 = 0;
+                    if (rgCurrentIndex != countLi - 1) {
+                        tmpindex1 = rgCurrentIndex + 1;
+                    }
+                    moveGallery(tmpindex1);
+                }
+            });
+        $(window)
+            .on("resize", function (e) {
+                $rgItems.removeAttr("style");
+                var wrapperWidth = $rgWrapper.width(),
+                    itemWidth = $rgItems.eq(0).width();
+                var itemHeigth = $rgItems.eq(0).height();
+                rgShowCount = Math.round(wrapperWidth / itemWidth);
+                if (wrapperWidth > 500) {
+                    var tmpleft = wrapperWidth / 2 - itemWidth;
+                    $(".responsiveGallery-item").css("left", tmpleft.toString() + "px");
+                }
+                if (wrapperWidth < 992) {
+                    $(".responsiveGallery-item .responsivGallery-pic").css("height", itemHeigth.toString());
+                }
+                $(".responsiveGallery-wrapper").css("height", itemHeigth + 20);
+                $(".responsiveGallery-item .w-responsivGallery-info .backg").css("height", itemHeigth.toString());
+                if (rgShowCount === 1) {
+                    rgTansCSS = getTransform1CSS();
+                } else if (rgShowCount === 3 || rgShowCount === 2) {
+                    rgTansCSS = getTransform3CSS();
+                } else {
+                    return;
+                }
+                rgCurrentIndex = 0;
+                if (wrapperWidth > 500) {
+                    moveGallery(0);
+                }
+                setTimeout(function () {
+                    $rgItems.css(getTransitionCSS(animatDuration / 1000, "ease-in-out"));
+                }, 10);
+            })
+            .trigger("resize");
+        countLi = $(".responsiveGallery-wrapper li").length;
+        for (var i = 1; i <= countLi - 2; i++) {
+            $("#dots").prepend(" <li></li>");
+            if (i == countLi - 2) {
+                moveGallery(0);
+            }
+        }
+        function funIntervall() {
+            var currentIndex = $("#dots li.current").index();
+            if (currentIndex < countLi - 1) {
+                currentIndex = currentIndex + 1;
+            } else {
+                currentIndex = 0;
+            }
+            moveGallery_Timer(currentIndex);
+        }
+        var interval11 = setInterval(function () {
+            funIntervall();
+        }, 4000);
+        $(".responsiveGallery-wrapper")
+            .mouseover(function () {
+                clearInterval(interval11);
+            })
+            .mouseout(function () {
+                interval11 = setInterval(function () {
+                    funIntervall();
+                }, 4000);
+            });
+        $("#dots li").bind("click", function () {
+            var index2 = $(this).index();
+            var index1 = countLi - 1 - index2;
+            var currentIndex = $("#dots li.current").index();
+            $("#dots li").removeClass("current");
+            $(this).addClass("current");
+            moveGallery(index1);
+        });
+        return this;
+    };
+    $.fn.responsiveGallery.defaults = { animatDuration: 400, $btn_prev: $(".responsiveGallery-btn_prev"), $btn_next: $(".responsiveGallery-btn_next") };
+})(jQuery);

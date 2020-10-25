@@ -1,0 +1,319 @@
+﻿$(window).resize(function (e) {
+    Set_labelLocation();
+});
+$(document).ready(function () {
+    //Set Modal Description location
+    $(".popupDescription").click(function (e) {
+        setLocation_DescryptionModal(this, e);
+    });
+    Set_labelLocation();
+    var mo = $(".modal_bottom_left_onStart");
+    if (typeof mo !== 'undefined') {
+        setTimeout(
+            function () {
+                var timeDelay = $("#hdnPopup_TimeDelay");
+                var time = 2000;
+                var intRegex = /^\d+$/;
+                if (typeof timeDelay != "undefined" && (intRegex.test(timeDelay.val()))) {
+                    time = parseInt(timeDelay.val());
+                }
+                setTimeout(
+                    function () {                       
+
+                        $(mo).delay("slow").modal('show');
+                        $('.modal-backdrop').delay("slow").removeClass("modal-backdrop");
+                    }, time);
+            }, 500);      
+    }
+
+    //validator mobile && tellphone &&&&
+    $.validator.addMethod('fullname', function (value, element) {
+        if (value.length < 5) {
+            return false;
+        }
+        return true;
+    },
+        'لطفا حداقل 5 کارکتر وارد نمایید'
+    );
+    //validator mobile && tellphone &&&&
+    $.validator.addMethod('firstname', function (value, element) {
+        if (value.length < 3) {
+            return false;
+        }
+        return true;
+    },
+        'لطفا حداقل 3 کارکتر وارد نمایید'
+    );
+    $.validator.addMethod('Password', function (value, element) {
+        if (value.length < 4) {
+            return false;
+        }
+        return true;
+    },
+        'لطفا حداقل 4 کارکتر وارد نمایید'
+    );
+    $.validator.addMethod('mobile_1', function (value, element) {
+        if (value.length < 11) {
+            return false;
+        }
+        return value.match(/^\d\d\d\d\d\d\d\d\d\d\d/);
+    },
+        'لطفا فقط 11 رقم وارد نمایید'
+    );
+    $.validator.addMethod('mobile_2', function (value, element) {
+        if ((value.substring(0, 2) != '09' && value.substring(0, 2) != '۰۹' && value.substring(0, 2) != '٠٩')) {
+            return false;
+        }
+        return true;
+    },
+        'فرمت شماره همراه شما صحیح نمی باشد'
+    );
+    $.validator.addMethod('tell', function (value, element) {
+        if ((value.length < 8) || (value.length > 11) || !($.isNumeric(parseInt(value)))) {
+            return false;
+        }
+        return true
+    },
+        'شماره تلفن با فرمت صحیحی وارد نگردیده است.'
+    );
+    $.validator.addMethod('nationalcode', function (value, element) {
+        if (value.length != 10) {
+            return false;
+        }
+        return value.match(/^\d\d\d\d\d\d\d\d\d\d/);
+    },
+        'لطفا فقط 10 رقم وارد نمایید'
+    );
+
+    $.validator.addMethod('address', function (value, element) {
+
+        if (value.length > 0 && value.length < 8) {
+            return false;
+        }
+        return true;
+    },
+        'آدرس دقیق  را وارد کنید'
+    );
+
+    $.validator.addMethod('price', function (value, element) {
+        if ((value.length < 2) || !($.isNumeric(parseInt(value)))) {
+            return false;
+        }
+        return true
+    },
+        'لطفا مبلغ را با فرمت صحیحی وارد فرمایید.'
+    );
+
+    $.validator.addMethod('price_required', function (value, element) {
+        if (typeof value !== 'undefined' && value.length != "") {
+            if (!($.isNumeric(parseInt(value)))) {
+                return false;
+            }
+        }
+        return true
+    },
+        'لطفا مبلغ را با فرمت صحیحی وارد فرمایید.'
+    );
+    $.validator.addMethod('digit', function (value, element) {
+        if (!($.isNumeric(parseInt(value)))) {
+            return false;
+        }
+        return true
+    },
+        'لطفا فقط  رقم وارد نمایید'
+    );
+
+
+    if ($('.select2').length) {
+        $('.select2').select2();
+    }
+    //**********************************  $(window).resize***************************
+    $(window).resize(function () {
+
+        //********************select2*************
+        if ($('.select2').length) {
+            var currentIndex = $(".select2").prop('selectedIndex');
+            $('.select2').select2();
+            $('.select2').prop('selectedIndex', currentIndex).change();
+        }
+        //   setTimeout(Page_rectongle2,2000) ;
+    });
+
+    //*********************************** page with rectongle*****/
+    function Page_rectongle1() {
+        var rect = $(".blueRectongle-container").attr("class");
+        if ((typeof rect !== "undefined")) {
+            var scrollTop = $(window).scrollTop();
+
+            $('.page-contain').delay(80)
+                .queue(function (next) {
+                    $(".header-area.style-01").addClass("pageIndex");
+                    var elementOffset = $('.page-contain').offset().top;
+                    // alert(elementOffset);
+                    $(".page-contain").css("top", ((elementOffset - 80) * -1).toString() + "px");
+
+                    next();
+                });
+
+
+            //var scrollTop = $(window).scrollTop();
+
+            //var he2 = $(".main-slide").offset().top;
+            //$(".main-slide").css("top", ((he2 - 140) * -1).toString() + "px");
+
+        }
+    }
+    //function Page_rectongle2() {
+    //    var rect = $(".blueRectongle-container");
+
+
+    //}
+    Page_rectongle1();
+    //Page_rectongle2();
+
+
+    jQuery.extend(jQuery.validator.messages, {
+        required: "ورود اطلاعات این فیلد الزامی است",
+        remote: "Please fix this field.",
+        email: "لطفا ایمیل را با فرمت درست وارد نمایید.",
+        url: "Please enter a valid URL.",
+        date: "Please enter a valid date.",
+        dateISO: "Please enter a valid date (ISO).",
+        number: "Please enter a valid number.",
+        digits: "Please enter only digits.",
+        creditcard: "Please enter a valid credit card number.",
+        equalTo: "لطفا همان مقدار قبلی را وارد فرمایید.",
+        accept: "Please enter a value with a valid extension.",
+        maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+        minlength: jQuery.validator.format("Please enter at least {0} characters."),
+        rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+        range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+        max: jQuery.validator.format("لطفا مقداری کمتر از  {0} وارد فرمایید."),
+        min: jQuery.validator.format("لطفا مقداری بیشتر از {0} وارد فرمایید")
+    });
+});
+function setLocation_DescryptionModal(obj, e) {
+    var modalID = $(obj).attr("data-target");
+    var topD = 0;
+    var leftD = 0;
+    if (e.pageX || e.pageY) {
+        leftD = e.pageX;
+        topD = e.pageY;
+    }
+    else if (e.clientX || e.clientY) {
+        leftD = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        topD = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }    // alert(e.clientX +"       "+ document.body.scrollLeft +"        "+ document.documentElement.scrollLeft);
+    if (typeof modalID !== 'undefined') {
+        $(modalID).modal('show');
+        $('.modal-backdrop').remove();
+        $('.modalDescription').css("height", $(document).height() + "px");
+        var modalWidth = parseInt($(modalID).find(".modal-dialog").width());
+        var modalH = parseInt($(modalID).find(".modal-dialog").height());
+        var modalLeft = parseInt($(modalID).find(".modal-dialog").offset().left);
+        if ((leftD - modalWidth - 20) < 20) {            //  alert(leftD - (modalWidth / 2));
+            if (leftD - (modalWidth / 2) < 20) {
+                leftD = -15;
+            } else {
+                leftD = leftD + modalLeft - (modalWidth / 2) + 20;
+            }
+        } else {
+            leftD = leftD + modalLeft - modalWidth;
+        }
+        topD = topD - modalH - 40;        // alert(leftD + "         " + topD + "          " + modalWidth + "            " + modalH);
+        $(modalID).find(".modal-content").css("left", leftD + "px");
+        $(modalID).find(".modal-content").css("top", topD + "px");
+    }
+}
+function Set_labelLocation() {//For set Padding-left All input
+    $(".contact-form-container input.txt-input").each(function () {
+        var label = $(this).parent().find(".title");
+        if (typeof label !== "undefined") {
+            var width = $(label).width();            //alert(width);
+            $(this).css("padding-right", (parseInt(width) + 20).toString() + "px");
+        }
+    });
+    $(".contact-form-container textarea.txt-input").each(function () {
+        var label = $(this).parent().find(".title");
+        if (typeof label !== "undefined") {
+            var width = $(label).width();
+            //alert(width);
+            $(this).css("padding-right", (parseInt(width) + 20).toString() + "px");
+        }
+    });
+    $(".contact-form-container .select2").each(function () {
+        var label = $(this).parent().find(".title");
+        var tmp = $(this).attr("class");
+        if ((typeof tmp !== 'undefined') && (tmp.indexOf("withDescription") > -1)) {
+            $(this)
+                .delay(80)
+                .queue(function (next) {
+                    $(this).parent().find(".select2-selection__arrow b").css("margin-left", "25px");
+                    next();
+                });
+        }
+        if (typeof label !== "undefined") {
+            var width = $(label).width();
+            $(this)
+                .delay(80)
+                .queue(function (next) {
+                    $(this).parent().find(".selection .select2-selection--single").css("padding-right", (parseInt(width) - 10).toString() + "px");
+                    next();
+                });
+        }
+    });
+}/******************MenuUUUUUUU **************/
+function includeHTML() {
+    var z, i, elmnt, file, xhttp;
+    /* Loop through a collection of all HTML elements: */
+    z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        /*search for elements with a certain atrribute:*/
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+            /* Make an HTTP request using the attribute value as the file name: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) { elmnt.innerHTML = this.responseText; }
+                    if (this.status == 404) { elmnt.innerHTML = "Page not found."; }
+                    /* Remove the attribute, and call this function once more: */
+                    elmnt.removeAttribute("w3-include-html");
+                    includeHTML();
+                }
+            }
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Exit the function: */
+            return;
+        }
+    }
+}
+includeHTML();
+function changeNumberToDigit(val) {
+    debugger;
+    var checkdigitmobile = val;
+    checkdigitmobile = checkdigitmobile.replace(/۰/g, '0');
+    checkdigitmobile = checkdigitmobile.replace(/٠/g, '0');
+    checkdigitmobile = checkdigitmobile.replace(/۹/g, '9');
+    checkdigitmobile = checkdigitmobile.replace(/٩/g, '9');
+    checkdigitmobile = checkdigitmobile.replace(/٨/g, '8');
+    checkdigitmobile = checkdigitmobile.replace(/۸/g, '8');
+    checkdigitmobile = checkdigitmobile.replace(/۷/g, '7');
+    checkdigitmobile = checkdigitmobile.replace(/٧/g, '7');
+    checkdigitmobile = checkdigitmobile.replace(/۶/g, '6');
+    checkdigitmobile = checkdigitmobile.replace(/٦/g, '6');
+    checkdigitmobile = checkdigitmobile.replace(/۵/g, '5');
+    checkdigitmobile = checkdigitmobile.replace(/٥/g, '5');
+    checkdigitmobile = checkdigitmobile.replace(/۴/g, '4');
+    checkdigitmobile = checkdigitmobile.replace(/٤/g, '4');
+    checkdigitmobile = checkdigitmobile.replace(/۳/g, '3');
+    checkdigitmobile = checkdigitmobile.replace(/٣/g, '3');
+    checkdigitmobile = checkdigitmobile.replace(/۲/g, '2');
+    checkdigitmobile = checkdigitmobile.replace(/٢/g, '2');
+    checkdigitmobile = checkdigitmobile.replace(/۱/g, '1');
+    checkdigitmobile = checkdigitmobile.replace(/١/g, '1');
+    return checkdigitmobile;
+}
+
